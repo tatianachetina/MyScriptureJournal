@@ -1,0 +1,77 @@
+﻿@page  
+@model MyScriptureJournal.Pages.Scriptures.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create" class="create">Create New</a>
+</p>
+
+<form>
+    <p>
+        <select asp-for="ScriptureBook" asp-items="Model.Books">
+        <option value="">All</option>
+        </select>
+        <!--Title: <input type="text" asp-for="SearchString" />-->
+        Find by keyword from the qoute : <input type="text" asp-for="SearchString" />
+        <input class="button" type="submit" value="Filter" />
+    </p>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="book">@Html.DisplayNameFor(model => model.Scripture[0].Book)</a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Scripture[0].Chapter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Scripture[0].Verse)
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="date">@Html.DisplayNameFor(model => model.Scripture[0].AddDate)</a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Scripture[0].Note)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Scripture)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Chapter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    <div id="outer">
+                    <a asp-page="./Edit" asp-route-id="@item.ID" class="inner"><button class="edit">Edit</button></a> 
+                    <a asp-page="./Details" asp-route-id="@item.ID"><button class="detail">Details</button></a> 
+                    <!--<a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>-->
+                    <a asp-page="./Delete" onclick="return confirm('Are you sure you want to delete the scripture?');"
+                    asp-page-handler="Delete" asp-route-id="@item.ID"><button class="delete">Delete</button></a>
+                    </div>
+                </td>
+            </tr>
+    }
+    </tbody>
+    </table>
